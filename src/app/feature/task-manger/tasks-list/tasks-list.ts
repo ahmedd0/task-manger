@@ -14,6 +14,8 @@ import { NgClass } from '@angular/common';
 export class TasksList {
   tasks = input<Task[]>();
   selectedUserId = input<number | null>();
+  hasSelection = computed(() => this.selectedUserId() != null);
+  hasTasks = computed(() => this.filteredTasks().length > 0);
 
   filteredTasks: Signal<Task[]> = computed(() => {
     return (
