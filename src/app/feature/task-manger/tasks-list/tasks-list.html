@@ -1,0 +1,15 @@
+<div
+  class="flex flex-col gap-4 h-full"
+  [ngClass]="{ 'justify-center items-center': !filteredTasks().length}"
+>
+  @if(selectedUserId()){
+ @if(filteredTasks().length){ @for (task of filteredTasks(); track task.id;) {
+  <app-task [task]="task" />
+  } } @else {
+  <app-no-tasks />
+  }
+  } @else {
+    <div class="text-gray-300 rounded-xl p-5">select a user to see their tasks</div>
+  }
+
+</div>

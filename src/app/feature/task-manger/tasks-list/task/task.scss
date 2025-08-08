@@ -1,0 +1,6 @@
+.task {
+  @apply flex cursor-pointer mb-2 items-center justify-between bg-gray-200 p-2 rounded-md;
+}
+.completed-task-checker {
+  @apply text-gray-500 w-5 h-5 border-4 border-purple-600 rounded-full bg-white flex items-center justify-center;
+}

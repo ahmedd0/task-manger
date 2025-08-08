@@ -1,0 +1,24 @@
+<div class="p-4 flex flex-col min-h-svh">
+  <app-tasks-header
+    [bgColor]="'#fff'"
+    [title]="'Task Manager'"
+    [description]="'This is a task manager application built with Angular.'"
+  />
+  <div class="flex flex-grow gap-4 mt-5">
+    <!-- Adjust the height as needed -->
+    <aside
+      class="bg-gray-800 py-5 px-3 w-1/4 flex rounded-xl flex-col overflow-y-auto"
+    >
+      <app-users-list [users]="users" (onSelectUser)="onSelectUser($event)"   />
+    </aside>
+    <main
+      class="w-3/4 overflow-y-auto bg-gray-800 rounded-xl p-4 py-5"
+    >
+      <!-- <span>test</span> -->
+      <app-tasks-list [tasks]="tasks" [selectedUserId]="selectedUserId" />
+    </main>
+  </div>
+</div>
+@if (taskService.isAddTask()) {
+<app-add-task />
+}

@@ -1,0 +1,31 @@
+@for (user of users(); track user.id) {
+<div
+  (click)="selectCurrentUser(user.id)"
+  [ngClass]="{'bg-purple-600': user.id === selectedUser,}"
+  class="flex items-center justify-between transition-all duration-[500] ease bg-gray-300 text-black cursor-pointer p-2 rounded-xl [&:not(:last-of-type)]:mb-2"
+>
+  <div class="flex items-center gap-2">
+    <div class="w-10 h-10 rounded-full bg-gray-300 overflow-hidden">
+      <img
+        src="https://i.pravatar.cc/150?u={{ user.id }}"
+        alt="{{ user.name }}"
+        class="w-full h-full object-cover rounded-full"
+      />
+    </div>
+    <div>
+      <p
+        [ngClass]="{ 'text-white': user?.id === selectedUser }"
+        class="hidden md:block"
+      >
+        {{ user.name }}
+      </p>
+      <p
+        [ngClass]="{ 'text-white': user?.id === selectedUser }"
+        class="text-sm text-gray-500"
+      >
+        Lorem ipsum dolor sit amet.
+      </p>
+    </div>
+  </div>
+</div>
+}
