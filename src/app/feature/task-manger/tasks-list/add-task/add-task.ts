@@ -22,6 +22,8 @@ import {
 export class AddTask {
   @ViewChild('addTask') addTask!: ElementRef;
   form!: FormGroup;
+  status: string | null = null;
+  priority: string | null = null;
   private fb = new FormBuilder();
   constructor(private taskService: TaskService) {}
   statusOptions: SelectOption[] = [
@@ -34,15 +36,12 @@ export class AddTask {
     { label: 'Blocked', value: 'blocked' },
     { label: 'Archived', value: 'archived' },
     { label: 'Deleted', value: 'deleted' },
-  
   ];
   priorityOptions: SelectOption[] = [
     { label: 'Low', value: 'low' },
     { label: 'Medium', value: 'medium' },
     { label: 'High', value: 'high' },
   ];
-  status: string | null = null;
-  priority: string | null = null;
   async toggleAddTask() {
     // Add exit animation before closing
     if (this.addTask?.nativeElement) {

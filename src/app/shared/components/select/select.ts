@@ -174,7 +174,8 @@ export class UiSelectComponent
     }
   }
 
-
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {}
 
   // ControlValueAccessor
   writeValue(value: string | null): void {
