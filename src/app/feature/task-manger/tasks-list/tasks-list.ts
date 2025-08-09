@@ -6,7 +6,7 @@ import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-tasks-list',
   standalone: true,
-  imports: [TaskComponent, NoTasks, NgClass],
+  imports: [TaskComponent, NoTasks],
   templateUrl: './tasks-list.html',
   styleUrl: './tasks-list.scss',
   hostDirectives: [],

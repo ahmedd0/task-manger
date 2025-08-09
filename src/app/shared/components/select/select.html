@@ -1,0 +1,60 @@
+<div class="relative">
+  <button
+    #triggerBtn
+    type="button"
+    class="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white flex items-center justify-between"
+    [attr.aria-expanded]="isOpen"
+    [attr.aria-haspopup]="'listbox'"
+    [disabled]="disabled"
+    (click)="toggleOpen()"
+    (keydown)="onKeyDown($event)"
+  >
+    <span [class.text-gray-400]="!value">{{ selectedLabel }}</span>
+    <svg
+      class="w-5 h-5 text-gray-500 ml-3"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        fill-rule="evenodd"
+        d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+        clip-rule="evenodd"
+      />
+    </svg>
+  </button>
+
+  <div
+    *ngIf="isOpen"
+    class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden"
+    role="listbox"
+  >
+    <div class="max-h-56 overflow-auto py-1">
+      <button
+        *ngFor="let opt of options; let i = index"
+        type="button"
+        data-option
+        class="w-full text-left px-4 py-2 hover:bg-purple-50 focus:bg-purple-50 focus:outline-none flex items-center justify-between"
+        [class.bg-purple-50]="i === activeIndex"
+        [class.active]="i === activeIndex"
+        (mouseenter)="activeIndex = i"
+        (click)="selectOption(opt, i)"
+      >
+        <span [class.font-medium]="opt.value === value">{{ opt.label }}</span>
+        <svg
+          *ngIf="opt.value === value"
+          class="w-4 h-4 text-purple-600"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M16.704 5.29a1 1 0 010 1.414l-7.25 7.25a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L8.75 11.83l6.543-6.54a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
