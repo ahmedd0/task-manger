@@ -1,4 +1,4 @@
-import { Component, input, OnInit, signal } from '@angular/core';
+import { Component, input, OnInit, signal, computed } from '@angular/core';
 import { TasksHeader } from './components/tasks-header/tasks-header';
 import { CommonModule } from '@angular/common';
 import { User } from './interfaces/user';
@@ -19,6 +19,7 @@ import { TaskService } from './tasks-list/task';
 export class TaskManager implements OnInit {
   users: User[] = [];
   tasks: Task[] = [];
+  tasksFromSignal = computed(() => this.taskService.tasks());
   showAddTask = false;
   selectedUserId: number | null = null;
   constructor(
@@ -28,7 +29,6 @@ export class TaskManager implements OnInit {
 
   ngOnInit() {
     this.getUsers();
-    this.getTasks();
   }
 
   getUsers() {
@@ -42,18 +42,8 @@ export class TaskManager implements OnInit {
     });
   }
 
-  getTasks() {
-    this.taskService.getTasks().subscribe({
-      next: (tasks) => {
-        this.tasks = tasks;
-        // this.tasks = [];
-      },
-      error: (error) => {
-        console.error('Error loading tasks:', error);
-      },
-    });
-  }
   onSelectUser(userId: number) {
     this.selectedUserId = userId;
   }
+ 
 }

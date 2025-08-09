@@ -11,5 +11,7 @@
   <div class="text-gray-300 rounded-xl p-5">
     Select a user to see their tasks
   </div>
+  } @if (hasSelection() && hasTasks()) {
+    <button appBtn (click)="toggleAddTask()">Add Task</button>
   }
 </div>

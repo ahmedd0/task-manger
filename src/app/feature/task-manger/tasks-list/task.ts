@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 })
 export class TaskService {
   isAddTask = signal(false);
-  tasks: Task[] = [
+  tasks = signal<Task[]>([
     {
       id: 1,
       name: 'Task 1',
@@ -96,8 +96,12 @@ export class TaskService {
       dueDate: new Date(),
       priority: 'low',
     },
-  ];
+  ]);
   getTasks(): Observable<Task[]> {
-    return of(this.tasks);
+    return of(this.tasks());
+  }
+  addTask(task: Task) {
+    this.tasks.update((olsTasks: any) => [...olsTasks, task]);
+    console.log(this.tasks());
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, input } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,13 +6,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { TaskService } from '../task';
+import { Task } from '../../interfaces/task';
 import { Btn } from '../../../../shared/directives/btn';
 import { Input } from '../../../../shared/directives/input';
 import {
   UiSelectComponent,
   SelectOption,
 } from '../../../../shared/components/select/select';
-import { AddTaskHeader } from "./add-task-header/add-task-header";
+import { AddTaskHeader } from './add-task-header/add-task-header';
 
 @Component({
   selector: 'app-add-task',
@@ -22,6 +23,7 @@ import { AddTaskHeader } from "./add-task-header/add-task-header";
 })
 export class AddTask {
   @ViewChild('addTask') addTask!: ElementRef;
+  selectedUserId = input<number | null>();
   form!: FormGroup;
   status: string | null = null;
   priority: string | null = null;
@@ -63,6 +65,7 @@ export class AddTask {
       status: [null, [Validators.required]],
       priority: [null, [Validators.required]],
       dueDate: [null],
+      userId: [this.selectedUserId()],
     });
   }
   ngAfterViewInit() {
@@ -76,6 +79,29 @@ export class AddTask {
     // Cleanup if needed
   }
   onSubmit() {
-    console.log(this.form.value);
+    if (this.form.invalid) return;
+    const raw = this.form.value as {
+      title: string;
+      description: string;
+      status: string | null;
+      priority: string | null;
+      dueDate: string | Date | null;
+      userId: number | null;
+    };
+
+    const newTask: Task = {
+      id: Date.now(),
+      name: raw.title,
+      userId: raw.userId ?? 0,
+      description: raw.description ?? '',
+      completed: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      dueDate: raw.dueDate ? new Date(raw.dueDate) : new Date(),
+      priority: raw.priority ?? 'low',
+    };
+
+    this.taskService.addTask(newTask);
+    this.toggleAddTask();
   }
 }

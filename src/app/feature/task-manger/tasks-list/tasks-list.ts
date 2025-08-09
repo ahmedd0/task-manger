@@ -1,17 +1,28 @@
-import { Component, input, signal, computed, Signal } from '@angular/core';
+import {
+  Component,
+  input,
+  signal,
+  computed,
+  Signal,
+  output,
+  inject,
+} from '@angular/core';
 import { Task } from '../interfaces/task';
 import { TaskComponent } from './task/task';
 import { NoTasks } from './no-tasks/no-tasks';
 import { NgClass } from '@angular/common';
+import { Btn } from '../../../shared/directives/btn';
+import { TaskService } from './task';
 @Component({
   selector: 'app-tasks-list',
   standalone: true,
-  imports: [TaskComponent, NoTasks],
+  imports: [TaskComponent, NoTasks, Btn],
   templateUrl: './tasks-list.html',
   styleUrl: './tasks-list.scss',
   hostDirectives: [],
 })
 export class TasksList {
+  taskService = inject(TaskService);
   tasks = input<Task[]>();
   selectedUserId = input<number | null>();
   hasSelection = computed(() => this.selectedUserId() != null);
@@ -23,4 +34,7 @@ export class TasksList {
       []
     );
   });
+  toggleAddTask() {
+    this.taskService.isAddTask.update((prev) => !prev);
+  }
 }
