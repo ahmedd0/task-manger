@@ -28,6 +28,13 @@ export class AddTask {
     { label: 'To Do', value: 'todo' },
     { label: 'In Progress', value: 'in-progress' },
     { label: 'Completed', value: 'completed' },
+    { label: 'Cancelled', value: 'cancelled' },
+    { label: 'On Hold', value: 'on-hold' },
+    { label: 'Deferred', value: 'deferred' },
+    { label: 'Blocked', value: 'blocked' },
+    { label: 'Archived', value: 'archived' },
+    { label: 'Deleted', value: 'deleted' },
+  
   ];
   priorityOptions: SelectOption[] = [
     { label: 'Low', value: 'low' },
@@ -67,5 +74,8 @@ export class AddTask {
   }
   ngOnDestroy() {
     // Cleanup if needed
+  }
+  onSubmit() {
+    console.log(this.form.value);
   }
 }

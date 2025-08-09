@@ -29,8 +29,8 @@
     class="absolute z-10 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden"
     role="listbox"
   >
-    <div class="max-h-56 overflow-auto py-1">
-      <button
+    <div data-options-container class="max-h-56 overflow-auto py-1">
+      <button data-option
         *ngFor="let opt of options; let i = index"
         type="button"
         data-option

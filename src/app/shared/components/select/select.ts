@@ -8,8 +8,12 @@ import {
   Output,
   ViewChild,
   forwardRef,
+  Inject,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { DOCUMENT } from '@angular/common';
 
 export interface SelectOption {
   label: string;
@@ -30,7 +34,9 @@ export interface SelectOption {
     },
   ],
 })
-export class UiSelectComponent implements ControlValueAccessor {
+export class UiSelectComponent
+  implements ControlValueAccessor, OnInit, OnDestroy
+{
   @Input() options: SelectOption[] = [];
   @Input() placeholder: string = 'Select...';
   disabled: boolean = false;
@@ -45,7 +51,26 @@ export class UiSelectComponent implements ControlValueAccessor {
   private onChange: (_: string | null) => void = () => {};
   private onTouched: () => void = () => {};
 
-  constructor(private host: ElementRef<HTMLElement>) {}
+  private removeCaptureListener?: () => void;
+
+  constructor(
+    private host: ElementRef<HTMLElement>,
+    @Inject(DOCUMENT) private documentRef: Document
+  ) {}
+  ngOnInit(): void {
+    // Capture-phase listener ensures we get the click even if someone stops propagation
+    const handler = (event: Event) => {
+      if (!this.isOpen) return;
+      const target = event.target as Node;
+      if (!this.host.nativeElement.contains(target)) {
+        this.close();
+        this.onTouched();
+      }
+    };
+    this.documentRef.addEventListener('click', handler, true);
+    this.removeCaptureListener = () =>
+      this.documentRef.removeEventListener('click', handler, true);
+  }
 
   get selectedLabel(): string {
     const found = this.options.find((o) => o.value === this.value);
@@ -149,15 +174,7 @@ export class UiSelectComponent implements ControlValueAccessor {
     }
   }
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
-    if (!this.isOpen) return;
-    const target = event.target as Node;
-    if (!this.host.nativeElement.contains(target)) {
-      this.close();
-      this.onTouched();
-    }
-  }
+
 
   // ControlValueAccessor
   writeValue(value: string | null): void {
@@ -175,5 +192,9 @@ export class UiSelectComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  ngOnDestroy(): void {
+    this.removeCaptureListener?.();
   }
 }
