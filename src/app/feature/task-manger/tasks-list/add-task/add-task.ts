@@ -12,10 +12,11 @@ import {
   UiSelectComponent,
   SelectOption,
 } from '../../../../shared/components/select/select';
+import { AddTaskHeader } from "./add-task-header/add-task-header";
 
 @Component({
   selector: 'app-add-task',
-  imports: [Btn, Input, UiSelectComponent, ReactiveFormsModule],
+  imports: [Btn, Input, UiSelectComponent, ReactiveFormsModule, AddTaskHeader],
   templateUrl: './add-task.html',
   styleUrl: './add-task.scss',
 })
